@@ -101,7 +101,7 @@ class Usuario
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Cupon\CiudadBundle\Entity\Ciudad") */
+     * @ORM\ManyToOne(targetEntity="Cupon\CiudadBundle\Entity\Ciudad")
      */
     private $ciudad;
     
