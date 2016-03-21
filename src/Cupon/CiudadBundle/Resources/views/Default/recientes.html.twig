@@ -5,7 +5,12 @@
     
 {% block article %}
     <h1>Ofertas recientes en <strong>{{ ciudad.nombre }}</strong></h1>
-    ## LISTADO DE OFERTAS ##
+    
+    {% for oferta in ofertas %}
+        {% include 'OfertaBundle:Default:includes/minioferta.html.twig' %}
+    {% else %}
+        <p>Esta ciudad todavía no ha publicado ninguna oferta</p>
+    {% endfor %}
 {% endblock %}
 
 {% block aside %}
@@ -15,5 +20,12 @@
         <h2>Ofertas de otras ciudades</h2>
         <ul>
             {% for ciudad in cercanas %}
-            <li>/<li>
+            <li>
+                <a href="{{ path( 'ciudad_recientes', {'ciudad': ciudad.slug}) }}">
+                    {{ciudad.nombre}}
+                </a>
+            </li>
+            {% endfor %}
         </ul>
+    </section>
+{% endblock %}
