@@ -127,8 +127,8 @@ class Basico implements FixtureInterface, ContainerAwareInterface
                 }
 
                 $fechaPublicacion = new \DateTime($fecha);
-                //$fechaPublicacion->setTime(23, 59, 59);
-                $fechaPublicacion->setTime(00, 00, 00);
+                $fechaPublicacion->setTime(23, 59, 59);
+                //$fechaPublicacion->setTime(00, 00, 00);
                 
                 $fechaExpiracion = clone $fechaPublicacion;
                 $fechaExpiracion->add(\DateInterval::createFromDateString('24 hours'));

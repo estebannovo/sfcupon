@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -13,22 +14,29 @@ class DefaultController extends Controller
         return $this->render('OfertaBundle:Default:ayuda.html.twig');
     }
     
-    public function portadaAction($ciudad = null)
+    public function portadaAction($ciudad)
     {
-        if(null == $ciudad)
+        /*if(null == $ciudad)
         {
             $ciudad = $this->container->getParameter('cupon.ciudad_por_defecto');
             return new RedirectResponse(
                 $this->generateUrl('portada', array('ciudad' => $ciudad))
             );
-        }
+        }*/
         
         $em = $this->getDoctrine()->getManager();
         
-        $oferta = $em->getRepository('OfertaBundle:Oferta')->findOneBy(array(
+        $oferta = $em->getRepository('OfertaBundle:Oferta')->findOfertaDelDia($ciudad);
+        /*$oferta = $em->getRepository('OfertaBundle:Oferta')->findOneBy(array(
             'ciudad' => $ciudad,
             'fechaPublicacion' => new \DateTime('today')
-        ));
+        ));*/
+        
+        if(!$oferta){
+            throw $this->createNotFoundException(
+                'No se ha encontrado la oferta del día en la ciudad seleccionada'
+            );
+        }
         
         return $this->render(
             'OfertaBundle:Default:portada.html.twig',

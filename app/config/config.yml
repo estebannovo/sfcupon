@@ -23,11 +23,15 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    
+    templating: { engines: ['twig'], assets_version: 0.1, assets_version_format: %%s?v=%%s }
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        ciudad_por_defecto: %cupon.ciudad_por_defecto%
 
 # Assetic Configuration
 assetic:
@@ -73,4 +77,4 @@ swiftmailer:
 
 
 parameters:
-    cupon.ciudad_por_defecto: '1'
+    cupon.ciudad_por_defecto: 'barcelona'
