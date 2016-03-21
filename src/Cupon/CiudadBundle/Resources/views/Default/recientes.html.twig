@@ -1,0 +1,19 @@
+{% extends "::frontend.html.twig" %}
+
+{% block title %} Ofertas recientes en {{ ciudad.nombre}} {% endblock %}
+{% block id 'recientes' %}
+    
+{% block article %}
+    <h1>Ofertas recientes en <strong>{{ ciudad.nombre }}</strong></h1>
+    ## LISTADO DE OFERTAS ##
+{% endblock %}
+
+{% block aside %}
+    {{ parent() }}
+    
+    <section id="cercanas">
+        <h2>Ofertas de otras ciudades</h2>
+        <ul>
+            {% for ciudad in cercanas %}
+            <li></li>
+        </ul>

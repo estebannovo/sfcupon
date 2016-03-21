@@ -74,6 +74,8 @@ class CuponExtension extends \Twig_Extension
                     setTimeout('muestraCuentaAtras()', 1000);
                 }
                 
+                console.log('entre');
+                
                 document.getElementById('tiempo').innerHTML = '<strong>Faltan:</strong> ' + cuentaAtras;
             }
             
