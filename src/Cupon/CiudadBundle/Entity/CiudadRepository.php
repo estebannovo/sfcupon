@@ -17,6 +17,6 @@ class CiudadRepository extends EntityRepository
         $consulta->setMaxResults(5);
         $consulta->setParameter('id', $ciudad_id);
         
-        return $consulta->getResults();
+        return $consulta->getResult();
     }
 }

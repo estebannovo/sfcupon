@@ -44,3 +44,11 @@
 /nbproject/private/
 
 /nbproject
+
+
+/web/phpinfo.php
+
+
+composer.lock
+app/cache/.gitkeep
+app/logs/.gitkeep

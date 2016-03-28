@@ -1,3 +1,6 @@
 tienda_homepage:
     path:     /hello/{name}
     defaults: { _controller: TiendaBundle:Default:index }
+tienda_portada:
+    path: /{ciudad}/tiendas/{tienda}
+    defaults: { _controller: TiendaBundle:Default:portada }

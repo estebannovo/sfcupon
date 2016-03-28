@@ -1,16 +1,23 @@
 <?php
 
 namespace Cupon\UsuarioBundle\Entity;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use Symfony\Component\Validator\ExecutionContextInterface;
+//use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * Usuario
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cupon\UsuarioBundle\Entity\UsuarioRepository")
+ * @DoctrineAssert\UniqueEntity("email")
+ * @Assert\Callback(methods={"esDniValido"})
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
      * @var integer
@@ -24,7 +31,8 @@ class Usuario
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=100)
+     * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
     private $nombre;
 
@@ -38,7 +46,8 @@ class Usuario
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\Email(checkMX=true)
      */
     private $email;
 
@@ -46,6 +55,7 @@ class Usuario
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\Length(min = 6)
      */
     private $password;
 
@@ -400,6 +410,46 @@ class Usuario
     
     public function __toString()
     {
-        $this->getNombre().' '.$this->getApellidos();
+        return $this->getNombre().' '.$this->getApellidos();
     }
+    
+    function eraseCredentials() {        
+    }
+    
+    function getRoles() {
+        return array('ROLE_USUARIO');
+    }
+    
+    function getUsername() {
+        return $this->getEmail();
+    }
+    
+    public function esDniValido(ExecutionContextInterface $context)
+    {
+        $dni = $this->getDni();
+        //Comprobar que el formato sea correcto
+        if(0 === preg_match("/\d{1,8}[a-z]/i", $dni)){
+            $context->addViolationAt('dni', 'El DNI introducido no tiene el formato correcto (entre 1 y 8 números seguidos de una letra, sin guiones y sin dejar ningún espacio en blanco', array(), null);
+            return ;
+        }
+        
+        //Comprobar que la letra cumple con el algoritmo
+        $numero = substr($dni, 0, -1);
+        $letra = strtoupper(substr($dni, -1));
+        
+        if($letra != substr("TRWAGMYFPDXBNJZSQVHLCKE", strtr($numero, "XYZ", "012")%23, 1)){
+            $context->addViolationAt('dni', 'La letra no coincide con el número del DNI. Comprueba que has escrito bien tanto el número como la letra', array(), null);
+        }
+    }
+    
+    
+    /**
+    * @Assert\True(message = "Debes tener al menos 18 años")
+    */
+    public function isMayorDeEdad()
+    {
+        return $this->fechaNacimiento <= new \DateTime('today - 18 years');
+    }
+    
+    
 }
