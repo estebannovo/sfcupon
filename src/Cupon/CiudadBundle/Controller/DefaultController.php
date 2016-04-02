@@ -38,6 +38,10 @@ class DefaultController extends Controller
     
     public function recientesAction($ciudad)
     {
+        $formato = $this->get('request')->getRequestFormat();
+        
+        
+        
         $em = $this->getDoctrine()->getManager();
         
         $ciudad = $em->getRepository('CiudadBundle:Ciudad')
@@ -54,7 +58,7 @@ class DefaultController extends Controller
                       ->findRecientes($ciudad->getId());
         
         
-        return $this->render('CiudadBundle:Default:recientes.html.twig',
+        return $this->render("CiudadBundle:Default:recientes.$formato.twig",
             array(
                 'ciudad' => $ciudad,
                 'cercanas' => $cercanas,
