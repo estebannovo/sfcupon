@@ -17,9 +17,10 @@ security:
             switch_user: { role: ROLE_ADMIN }
     
     access_control:
-        - { path: ^/usuario/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/usuario/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/usuario/*, roles: ROLE_USUARIO }
+        - { path: ^/(es|en)/usuario/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(es|en)/usuario/registro, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(es|en)/usuario/*, roles: ROLE_USUARIO }
+        #- { path: ^/[a-z]{2}/usuario/*, roles: ROLE_USUARIO } -- Opcion cuando son muchos idiomas y se usa una expresión regular
     
     providers:
         usuarios:

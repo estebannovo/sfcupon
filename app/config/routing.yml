@@ -1,22 +1,32 @@
 usuario:
     resource: "@UsuarioBundle/Resources/config/routing.yml"
-    prefix:   /usuario
+    prefix:   /{_locale}/usuario
+    requirements:
+        _locale: en|es
 
 tienda:
     resource: "@TiendaBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /{_locale}
+    requirements:
+        _locale: en|es
 
 ciudad:
     resource: "@CiudadBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /{_locale}
+    requirements:
+        _locale: en|es
 
 oferta:
     resource: "@OfertaBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /{_locale}
+    requirements:
+        _locale: en|es
 
 pagina_estatica:
-    path: /sitio/{pagina}
+    path: /{_locale}/sitio/{pagina}
     defaults: { _controller: OfertaBundle:Sitio:estatica }
+    requirements:
+        _locale: en|es
     
 _pagina_estatica:
     path: /sitio/{pagina}/
@@ -51,14 +61,21 @@ _portada:
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: portada, ciudad: '%cupon.ciudad_por_defecto%'}
     #defaults: { _controller: OfertaBundle:Default:portada}
     
+_portada_locale:
+    path: /{_locale}
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: portada, ciudad: '%cupon.ciudad_por_defecto%'}
 # Ruta completa de la portada (con el slug de la ciudad)
 portada:
-    path: /{ciudad}
-    defaults: { _controller: OfertaBundle:Default:portada, ciudad: null}
+    path: /{_locale}/{ciudad}
+    defaults: { _controller: OfertaBundle:Default:portada, ciudad: null, _locale: es }
+    requirements:
+        _locale: en|es
     
 oferta:
-    path: /{ciudad}/ofertas/{slug}
+    path: /{_locale}/{ciudad}/ofertas/{slug}
     defaults: { _controller: OfertaBundle:Default:oferta}
+    requirements:
+        _locale: en|es
     
     
     

@@ -34,7 +34,7 @@
     </div>
 {% else %}
     <div id="tiempo" class="tiempo">
-        <strong>Finalizada</strong> el  {{ oferta.fechaExpiracion | date() }}
+        <strong>Finalizada</strong> el {{ oferta.fechaExpiracion|localizeddate('long') }}<br>
     </div>
     <div class="compras">
         <strong>Compras</strong>: {{ oferta.compras}}

@@ -145,9 +145,19 @@ class Basico implements FixtureInterface, ContainerAwareInterface
                 $oferta->setTienda($tiendas[array_rand($tiendas)]);
                 
                 $manager->persist($oferta);
+                $manager->flush();
+                
+                // Traducir los contenidos de la oferta al inglés
+                $id = $oferta->getId();
+                $offer = $manager->find('OfertaBundle:Oferta', $id);
+                $offer->setNombre('ENGLISH '.$oferta->getNombre());
+                $offer->setDescripcion('ENGLISH '.$oferta->getDescripcion());
+                $offer->setTranslatableLocale('en');
+                $manager->persist($offer);
+                $manager->flush();
             }
         }
-        $manager->flush();
+        
         
         // Crear 100 usuarios en cada ciudad
         $numUsuario = 0;
